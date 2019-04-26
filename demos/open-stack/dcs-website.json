@@ -15,7 +15,7 @@
     "forceLowercase": true
   },
 
-  "proxyUrl": "http://localhost:7000",
+  "proxyUrl": "http://dcs.link",
 
   "staticPages": [
     {
