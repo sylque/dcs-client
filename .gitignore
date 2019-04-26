@@ -1,0 +1,11 @@
+/*
+!.gitignore
+!README.md
+!package.json
+!package-lock.json
+!rollup.config.js
+!css
+!demos
+!dist
+!img
+!src

@@ -1,0 +1,68 @@
+/******************************************************************************/
+
+.dcs-subsec {
+  position: relative; /* Needed for :after positioning */
+}
+
+.dcs-trigger.dcs-no-balloon.dcs-no-span,
+.dcs-trigger.dcs-no-balloon .dcs-trigger-span {
+  cursor: pointer;
+}
+
+.dcs-trigger.dcs-highlighted.dcs-no-span,
+.dcs-trigger.dcs-highlighted .dcs-trigger-span {
+  background-color: yellow;
+}
+
+.dcs-subsec.dcs-highlighted:after {
+  position: absolute;
+  top: 0px;
+  bottom: -5px;
+  left: -15px;
+  content: '';
+  border-left: 8px solid yellow;
+}
+
+/******************************************************************************/
+
+.dcs-icons {
+  /* In case parent has "pointer-events: none", like in vue.js doc... */
+  pointer-events: auto !important;
+  cursor: pointer;
+}
+
+.dcs-icons > img {
+  margin-left: 3px;
+  width: 17px;
+  height: auto;
+  vertical-align: text-top;
+}
+
+.dcs-icons > .fas.fa-comment {
+  font-size: 18px;
+  color: #ff7800; /* Big in dcs-link-creator: #ffa500; */
+  margin-left: 3px;
+  vertical-align: text-top;
+}
+
+/******************************************************************************/
+
+.dcs-badge {
+  display: inline-block;
+  border-radius: 10px;
+  padding: 3px 5px;
+  min-width: 8px;
+  vertical-align: text-top;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  text-align: center;
+  background-color: #bdbdbd;
+  /* Reset */
+  line-height: 1;
+  font-weight: normal;
+  white-space: nowrap;
+  text-indent: 0;
+}
+
+/******************************************************************************/

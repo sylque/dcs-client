@@ -1,0 +1,91 @@
+{
+  "$schema": "https://sylque.github.io/dcs-website-schema/json/schema.json",
+
+  "websiteName": "mustacchio",
+
+  "logo": {
+    "logoUrl": "images/logo.jpg",
+    "mobileLogoUrl": "images/logo.jpg",
+    "smallLogoUrl": "images/logo.jpg"
+  },
+
+  "dcsTag": {
+    "maxPageNameLength": 6,
+    "maxTriggerIdLength": 9,
+    "forceLowercase": true
+  },
+
+  "staticPages": [
+    { "name": "home", "url": "index.html" },
+    { "name": "missio", "url": "mission.html" },
+    { "name": "aboutm", "url": "about-me.html" },
+    { "name": "lastev", "url": "last-event.html" },
+    { "name": "whitep", "url": "white-paper.html" }
+  ],
+
+  "redirects": [
+    {
+      "src": { "pageName": "missio", "layout": "FULL_CLIENT" },
+      "dest": {
+        "layout": "WITH_SPLIT_BAR",
+        "interactMode": "COMMENT",
+        "showRight": false
+      }
+    },
+    {
+      "src": { "pageName": "aboutm", "layout": "FULL_CLIENT" },
+      "dest": {
+        "layout": "WITH_SPLIT_BAR",
+        "interactMode": "DISCUSS",
+        "showRight": false
+      }
+    }
+  ],
+
+  "clientData": {
+    "decorator": {
+      "injectTriggers": [
+        {
+          "pageNames": ["lastev"],
+          "ids": ["photos"],
+          "interactMode": "COMMENT",
+          "ui": {
+            "cssSelector": ".article th:nth-of-type(1)"
+          },
+          "discourseTitle": "Photos"
+        },
+        {
+          "pageNames": ["lastev"],
+          "ids": ["videos"],
+          "interactMode": "COMMENT",
+          "ui": {
+            "cssSelector": ".article th:nth-of-type(2)"
+          },
+          "discourseTitle": "Videos"
+        },
+        {
+          "pageNames": ["lastev"],
+          "ids": ["stories"],
+          "interactMode": "DISCUSS",
+          "ui": { "cssSelector": ".article th:nth-of-type(3)" },
+          "discourseTitle": "Stories"
+        },
+        {
+          "pageNames": ["whitep"],
+          "ids": ["GENERATE_FROM_HTML_ID"],
+          "interactMode": "DISCUSS",
+          "ui": {
+            "cssSelector": ".article.white-paper h2, .article.white-paper h3",
+            "highlightable": true,
+            "insertTextSpan": true,
+            "insertBalloon": true,
+            "insertCountBadge": true,
+            "subsection": {
+              "begin": ".article.white-paper h2, .article.white-paper h3"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

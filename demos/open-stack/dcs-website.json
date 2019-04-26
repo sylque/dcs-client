@@ -1,0 +1,75 @@
+{
+  "$schema": "https://sylque.github.io/dcs-website-schema/json/schema.json",
+
+  "websiteName": "open_stack",
+
+  "logo": {
+    "logoUrl": "https://www.openstack.org/themes/openstack/images/openstack-logo-full.svg",
+    "mobileLogoUrl": "https://www.openstack.org/themes/openstack/images/openstack-logo-full.svg",
+    "smallLogoUrl": "https://www.openstack.org/themes/openstack/images/openstack-logo-full.svg"
+  },
+
+  "dcsTag": {
+    "maxPageNameLength": 6,
+    "maxTriggerIdLength": 9,
+    "forceLowercase": true
+  },
+
+  "proxyUrl": "http://localhost:7000",
+
+  "staticPages": [
+    {
+      "name": "openst",
+      "url": "https://docs.openstack.org/contributors/common/governance.html",
+      "needsProxy": true
+    },
+    {
+      "name": "bylaws",
+      "url": "https://www.openstack.org/legal/bylaws-of-the-openstack-foundation/",
+      "needsProxy": true
+    }
+  ],
+
+  "clientData": {
+    "decorator": {
+      "injectCss": [
+        {
+          "pageNames": ["openst"],
+          "css": ["nav, .headerlink { display: none }"]
+        }
+      ],
+      "injectTriggers": [
+        {
+          "pageNames": ["openst"],
+          "ids": ["GENERATE_FROM_HTML_ID"],
+          "interactMode": "DISCUSS",
+          "ui": {
+            "cssSelector": ".docs-body h2, .docs-body h3",
+            "highlightable": true,
+            "insertTextSpan": true,
+            "insertBalloon": true,
+            "insertCountBadge": true,
+            "subsection": {
+              "begin": ".docs-body h2, .docs-body h3"
+            }
+          }
+        },
+        {
+          "pageNames": ["bylaws"],
+          "ids": ["GENERATE_FROM_HTML_ID"],
+          "interactMode": "DISCUSS",
+          "ui": {
+            "cssSelector": ".container h2",
+            "highlightable": true,
+            "insertTextSpan": true,
+            "insertBalloon": true,
+            "insertCountBadge": true,
+            "subsection": {
+              "begin": ".container h2"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
