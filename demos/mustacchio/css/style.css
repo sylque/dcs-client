@@ -256,6 +256,13 @@ p a:hover {
   padding: 12px 27px;
 }
 #body #featured div a {
+  color: #fff;
+  text-decoration: none;
+}
+#body #featured div a:hover {
+  text-decoration: underline;
+}
+#body #featured div a.more {
   background: #0ba39c;
   color: #fff;
   display: inline-block;
@@ -266,7 +273,7 @@ p a:hover {
   text-decoration: none;
   text-transform: uppercase;
 }
-#body #featured div a:hover {
+#body #featured div a.more:hover {
   background: #1fc3bc;
 }
 #body > ul {
