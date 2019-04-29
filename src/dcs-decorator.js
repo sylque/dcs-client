@@ -225,8 +225,7 @@ function addTrigger(trigger, subsecNode, counts) {
     // Add the orange balloon icon if needed
     let iconsHtml = ''
     if (trigger.ui.insertBalloon) {
-      //iconsHtml += `<img src="http://headslap.me:7000/dcs-balloon.png" />`
-      iconsHtml += `<i class="fas fa-comment"></i>`
+      iconsHtml += '<div class="dcs-balloon"></div>'
     } else {
       node.classList.add('dcs-no-balloon')
     }
