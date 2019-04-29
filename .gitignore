@@ -1,6 +1,6 @@
 /*
 !.gitignore
-!README.md
+!*.md
 !package.json
 !package-lock.json
 !rollup.config.js
