@@ -1,6 +1,6 @@
 # comToPlugin.js
 
-## How to use it with npm
+## Npm usage
 
 Install with:
 
@@ -24,6 +24,6 @@ if (inIFrame()) {
 }
 ```
 
-## How to use it in the browser
+## Browser usage
 
 [under construction]

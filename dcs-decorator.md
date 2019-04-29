@@ -2,7 +2,7 @@
 
 ## How to use it
 
-Add the following lines to the `<head>` section of all your web pages:
+Add the following lines to the `<head>` section of your web pages:
 
 ```html
 <link
