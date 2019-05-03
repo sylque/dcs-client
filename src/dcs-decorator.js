@@ -277,6 +277,7 @@ function getHtmlId(triggerNode, subsecNode) {
 
   // Check for htmlId duplicates after truncation
   if (htmlIds.includes(afterClean)) {
+    const maxLength = dcsTagSettings.maxTriggerIdLength
     const save = afterClean
     for (let i = 1; ; ++i) {
       const iStr = i.toString()

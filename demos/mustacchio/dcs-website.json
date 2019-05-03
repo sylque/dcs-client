@@ -16,6 +16,7 @@
   },
 
   "staticPages": [
+    { "name": "empty", "url": "index.html" },
     { "name": "home", "url": "index.html" },
     { "name": "missio", "url": "mission.html" },
     { "name": "aboutm", "url": "about-me.html" },
@@ -24,6 +25,10 @@
   ],
 
   "redirects": [
+    {
+      "src": { "pageName": "empty" },
+      "dest": { "layout": "FULL_DISCOURSE", "url": "/latest" }
+    },
     {
       "src": { "pageName": "missio", "layout": "FULL_CLIENT" },
       "dest": {

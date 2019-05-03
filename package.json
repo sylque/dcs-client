@@ -1,6 +1,6 @@
 {
   "name": "dcs-client",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Client-side libraries for adding Docuss to your website or web app",
   "main": "dist/comToPlugin.js",
   "scripts": {
