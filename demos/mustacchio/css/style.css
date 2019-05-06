@@ -257,7 +257,7 @@ p a:hover {
 }
 #body #featured div a {
   color: #fff;
-  text-decoration: none;
+  /* text-decoration: none; */
 }
 #body #featured div a:hover {
   text-decoration: underline;
