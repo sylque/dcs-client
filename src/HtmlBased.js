@@ -27,13 +27,11 @@ class HtmlBased {
     })
   }
 
-  parseDom({ descr, pageName, discourseUrl, counts }) {
+  parseDom({ descr, pageName, discourseOrigin, counts }) {
     // We will resolve all links to absolute without proxy ("https://website.com/bar/index.html")
     // We start by retrieving the url of the current page url without the proxy
     const page = descr.staticPages.find(p => p.name === pageName)
     const pageUrlWithoutProxy = page.url
-
-    const discourseOrigin = new URL(discourseUrl).origin
 
     return u.dom.onDOMReady().then(() => {
       // Modify the document links so that they open the correct url in the
@@ -65,7 +63,7 @@ class HtmlBased {
             e.preventDefault()
             e.stopPropagation()
             comToPlugin.postSetDiscourseRoute({
-              route: { layout: 'FULL_DISCOURSE', url: a.href },
+              route: { layout: 1, pathname: a.pathname },
               mode: 'PUSH',
               clientContext: true
             })
@@ -114,7 +112,7 @@ class HtmlBased {
             e.preventDefault()
             e.stopPropagation()
             comToPlugin.postSetDiscourseRoute({
-              route: { layout: 'FULL_CLIENT', pageName: page.name },
+              route: { layout: 0, pageName: page.name },
               mode: 'PUSH',
               clientContext: true
             })
@@ -140,8 +138,8 @@ class HtmlBased {
       // page already contains a static redirect for full page commenting
       // (WITH_SPLIT_BAR => FULL_CLIENT). Yep, infinite loop.
       const redirects = nonHighlitghables.map(triggerId => ({
-        src: { layout: 'WITH_SPLIT_BAR', triggerId, showRight: false },
-        dest: { layout: 'FULL_CLIENT' }
+        src: { layout: 2, triggerId },
+        dest: { layout: 0, pageName: '@SAME_AS_SRC@' }
       }))
       comToPlugin.postSetRedirects(redirects)
 
@@ -162,11 +160,10 @@ class HtmlBased {
 
           comToPlugin.postSetDiscourseRoute({
             route: {
-              layout: 'WITH_SPLIT_BAR',
+              layout: 3,
               pageName: triggerNode.dataset.dcsPageName || pageName,
               triggerId,
-              interactMode: triggerNode.dataset.dcsInteractMode,
-              showRight: true
+              interactMode: triggerNode.dataset.dcsInteractMode
             },
             mode: 'PUSH',
             clientContext: true
@@ -190,7 +187,7 @@ class HtmlBased {
         ) {
           this._selectTriggers(null)
           comToPlugin.postSetDiscourseRoute({
-            route: { layout: 'FULL_CLIENT', pageName },
+            route: { layout: 0, pageName },
             mode: 'PUSH',
             clientContext: true
           })
@@ -217,13 +214,13 @@ class HtmlBased {
     })
   }
 
-  _onDiscourseRoutePushed({ route, descr, counts, clientContext }) {
+  _onDiscourseRoutePushed({ route, descr, counts, clientContext, origin }) {
     // Case init
     if (this.resolveInit) {
       this.resolveInit({
         descr,
         pageName: route.pageName,
-        discourseUrl: route.url,
+        discourseOrigin: origin,
         counts
       })
       delete this.resolveInit
@@ -239,7 +236,7 @@ class HtmlBased {
     }
 
     // Set the route category and title
-    if (route.layout === 'WITH_SPLIT_BAR') {
+    if (route.layout === 2 || route.layout === 3) {
       const triggerNode =
         route.triggerId &&
         document.querySelector(

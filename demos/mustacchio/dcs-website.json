@@ -25,20 +25,12 @@
 
   "redirects": [
     {
-      "src": { "pageName": "missio", "layout": "FULL_CLIENT" },
-      "dest": {
-        "layout": "WITH_SPLIT_BAR",
-        "interactMode": "COMMENT",
-        "showRight": false
-      }
+      "src": { "layout": 0, "pageName": "missio" },
+      "dest": { "layout": 2, "pageName": "@SAME_AS_SRC@", "interactMode": "COMMENT" }
     },
     {
-      "src": { "pageName": "aboutm", "layout": "FULL_CLIENT" },
-      "dest": {
-        "layout": "WITH_SPLIT_BAR",
-        "interactMode": "DISCUSS",
-        "showRight": false
-      }
+      "src": { "layout": 0, "pageName": "aboutm" },
+      "dest": { "layout": 2, "pageName": "@SAME_AS_SRC@", "interactMode": "DISCUSS" }
     }
   ],
 

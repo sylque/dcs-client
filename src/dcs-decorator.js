@@ -26,7 +26,7 @@ if (u.inIFrame()) {
 
 let dcsTagSettings = null
 
-function modifyDom({ descr, pageName, discourseUrl, counts }) {
+function modifyDom({ descr, pageName, discourseOrigin, counts }) {
   // If no decorator, quit
   const decorator = descr.clientData && descr.clientData.decorator
   if (!decorator) {
@@ -67,7 +67,7 @@ function modifyDom({ descr, pageName, discourseUrl, counts }) {
   return u.dom.onDOMReady().then(() => {
     injectTriggers(pageTriggers, pageCounts)
     console.log('Docuss Decorator - Ready')
-    return { descr, pageName, discourseUrl, counts }
+    return { descr, pageName, discourseOrigin, counts }
   })
 }
 

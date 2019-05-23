@@ -1,6 +1,7 @@
 /*
 !.gitignore
 !*.md
+!layouts.png
 !package.json
 !package-lock.json
 !rollup.config.js

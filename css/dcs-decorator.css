@@ -38,15 +38,6 @@
   vertical-align: text-top;
 }
 
-/*
-.dcs-icons > .fas.fa-comment {
-  font-size: 18px;
-  color: #ff7800;
-  margin-left: 3px;
-  vertical-align: text-top;
-}
-*/
-
 .dcs-balloon {
   display: inline-block;
   height: 18px;
@@ -57,16 +48,6 @@
   vertical-align: text-top;
   margin-left: 3px;
 }
-
-/*
-.dcs-balloon:after {
-  content: 'XX';
-  color: rgba(0, 0, 0, 0);
-  background-image: url(../img/comment.svg);
-  background-repeat: no-repeat;
-  background-size: 0.8em;
-}
-*/
 
 /******************************************************************************/
 

@@ -15,8 +15,6 @@
     "forceLowercase": true
   },
 
-  "proxyUrl": "http://dcs.link",
-
   "staticPages": [
     {
       "name": "openst",

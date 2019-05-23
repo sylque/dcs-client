@@ -1,6 +1,6 @@
 {
   "name": "dcs-client",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Client-side libraries for adding Docuss to your website or web app",
   "main": "dist/comToPlugin.js",
   "scripts": {
@@ -18,15 +18,16 @@
   "homepage": "https://github.com/sylque/dcs-client#readme",
   "dependencies": {},
   "devDependencies": {
-    "bellhop-iframe": "^2.4.2",
+    "bellhop-iframe": "^3.0.0",
     "http-server": "^0.11.1",
-    "rollup-plugin-node-resolve": "^4.2.3",
+    "rollup-plugin-node-resolve": "^4.2.4",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^4.0.4"
   },
   "files": [
-    "css",
-    "dist",
-    "img"
+    "*.md",
+    "css/",
+    "dist/",
+    "img/bubble.svg"
   ]
 }

@@ -31,7 +31,6 @@ class ComToPlugin {
    * @param {number} arg.timeout
    * @param {OnTimeoutCallback} arg.onTimeout
    */
-
   connect({ discourseOrigin, onConnected, timeout, onTimeout }) {
     if (!u.inIFrame()) {
       throw new Error('comToPlugin must be used in an iframe')
@@ -62,7 +61,7 @@ class ComToPlugin {
 
   /**
    * @callback OnDiscourseRoutePushedCallback
-   * @param {RouteAndDescrAndCountsAndContext}
+   * @param {RoutePushedParams}
    */
   /**
    *  @param {OnDiscourseRoutePushedCallback} cb
@@ -85,14 +84,14 @@ class ComToPlugin {
   //----------------------------------------------------------------------------
 
   /**
-   * @param {RouteAndModeAndContext}
+   * @param {SetRouteParams}
    */
   postSetDiscourseRoute({ route, mode, clientContext }) {
     this._bellhop.send('m4', arguments[0])
   }
 
   /**
-   * @param {HashAndMode}
+   * @param {SetHashParams}
    */
   postSetHash({ hash, mode }) {
     this._bellhop.send('m5', arguments[0])
