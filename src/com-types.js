@@ -1,7 +1,7 @@
 /**
  * A Route is defined by a layout and a Discourse url.
- * The Discourse url is computed from (pageName, interactMode, triggerId) or
- * from (pathname)
+ * The Discourse url is computed either from (pageName, interactMode, 
+ * triggerId) or from (pathname)
  * @typedef {Object} Route
  * @property {(0|1|2|3)} layout
  * @property {String} [pageName] - Only if layout=1|2|3
