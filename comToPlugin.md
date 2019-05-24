@@ -79,6 +79,8 @@ comToPlugin.postSetDiscourseRoute({
 
 ## Set redirects
 
+A redirect is a rule that tells Docuss, when it is about to transition to a certain route (called the "source" route"), to transition to another route instead (called the "destination" route").
+
 ### Allow comments/discussions on full pages
 
 By default, a page doesn't display the split bar until you call
