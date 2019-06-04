@@ -30,7 +30,7 @@ class HtmlBased {
   parseDom({ descr, pageName, discourseOrigin, counts }) {
     // We will resolve all links to absolute without proxy ("https://website.com/bar/index.html")
     // We start by retrieving the url of the current page url without the proxy
-    const page = descr.staticPages.find(p => p.name === pageName)
+    const page = descr.pages.find(p => p.name === pageName)
     const pageUrlWithoutProxy = page.url
 
     return u.dom.onDOMReady().then(() => {
@@ -85,7 +85,7 @@ class HtmlBased {
         // Case it is an external link or a link to self
 
         // See if there is a corresponding page in the website
-        const page = descr.staticPages.find(
+        const page = descr.pages.find(
           p => p.url.split('#')[0] === targetUrlNoHash
         )
 

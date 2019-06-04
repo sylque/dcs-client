@@ -15,7 +15,7 @@
     "forceLowercase": true
   },
 
-  "staticPages": [
+  "pages": [
     {
       "name": "openst",
       "url": "https://docs.openstack.org/contributors/common/governance.html",

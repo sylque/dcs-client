@@ -15,7 +15,7 @@
     "forceLowercase": true
   },
 
-  "staticPages": [
+  "pages": [
     { "name": "home", "url": "index.html" },
     { "name": "missio", "url": "mission.html" },
     { "name": "aboutm", "url": "about-me.html" },
