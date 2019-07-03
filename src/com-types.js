@@ -39,9 +39,12 @@
 
 /**
  * @typedef  {Object} RouteProps
- * @property {String} [category]
- * @property {String} [discourseTitle]
- * @property {String} [error]
+ * @property {String} [category] - The name of an existing Discourse category, 
+ * which will be set if the user creates a topic from the route
+ * @property {String} [discourseTitle] - A text that will be displayed at the 
+ * top of the Discourse page
+ * @property {String} [error] - An error message that will be displayed instead 
+ * of the website page.
  */
 
 /**
