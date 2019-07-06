@@ -1,6 +1,6 @@
 # dcs-decorator.js
 
-## How to use it
+## Page Setup
 
 Add the following lines to the `<head>` section of your web pages:
 
@@ -15,3 +15,8 @@ Add the following lines to the `<head>` section of your web pages:
   async
 ></script>
 ```
+
+## How to add discussions
+
+This is done through the [JSON description file](https://github.com/sylque/dcs-website-schema).
+ 
