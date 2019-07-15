@@ -59,7 +59,7 @@ class HtmlBased {
         // Case the link is a discourse link: cancel the behavior and set a
         // custom click handler
         if (a.origin === discourseOrigin) {
-          a.onclick = e => {
+          a.addEventListener('click', e => {
             e.preventDefault()
             e.stopPropagation()
             comToPlugin.postSetDiscourseRoute({
@@ -67,7 +67,7 @@ class HtmlBased {
               mode: 'PUSH',
               clientContext: true
             })
-          }
+          })
           return
         }
 
@@ -76,9 +76,9 @@ class HtmlBased {
         // Case it is an anchor (internal link)
         if (a.hash && targetUrlNoHash === pageUrlWithoutProxy.split('#')[0]) {
           // We need to notify the parent window AND keep the default anchor behavior
-          a.onclick = () => {
+          a.addEventListener('click', () => {
             comToPlugin.postSetHash({ hash: a.hash, mode: 'REPLACE' })
-          }
+          })
           return
         }
 
@@ -108,7 +108,7 @@ class HtmlBased {
         // Regarding the simple click, cancel the default behavior and
         // let Discourse load the target page
         if (!a.target || a.target === '_self') {
-          a.onclick = e => {
+          a.addEventListener('click', e => {
             e.preventDefault()
             e.stopPropagation()
             comToPlugin.postSetDiscourseRoute({
@@ -116,7 +116,7 @@ class HtmlBased {
               mode: 'PUSH',
               clientContext: true
             })
-          }
+          })
         }
       })
 
@@ -147,7 +147,7 @@ class HtmlBased {
       const clickTargets =
         '.dcs-icons, .dcs-trigger.dcs-no-balloon .dcs-trigger-span, .dcs-trigger.dcs-no-balloon.dcs-no-span'
       u.dom.forEach(document.querySelectorAll(clickTargets), node => {
-        node.onclick = e => {
+        node.addEventListener('click', e => {
           // Don't do anything if user is selecting text
           if (window.getSelection().toString()) {
             return
@@ -172,7 +172,7 @@ class HtmlBased {
           // Mandatory because we want our global click event to fire only
           // when user clicks on an empty space
           e.stopPropagation()
-        }
+        })
       })
 
       this.runReady = true
