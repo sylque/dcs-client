@@ -1,5 +1,8 @@
 # comToPlugin.js
 
+Low-level dcs-client library for communication with the Docuss plugin. Supports
+websites and web apps.
+
 ## Setup
 
 Install with:
@@ -79,32 +82,37 @@ comToPlugin.postSetDiscourseRoute({
 
 ## Set the route properties
 
-Just after you've changed the route with `postSetDiscourseRoute()`, you can set some route properties using the following function: 
+Just after you've changed the route with `postSetDiscourseRoute()`, you can set
+some route properties using the following function:
 
 ```javascript
 /**
  * @typedef  {Object} RouteProps
- * @property {String} [category] - The name of an existing Discourse category, 
+ * @property {String} [category] - The name of an existing Discourse category,
  * which will be set if the user creates a topic from the route
- * @property {String} [discourseTitle] - A text that will be displayed at the 
+ * @property {String} [discourseTitle] - A text that will be displayed at the
  * top of the Discourse page
- * @property {String} [error] - An error message that will be displayed instead 
+ * @property {String} [error] - An error message that will be displayed instead
  * of the website page.
  */
 /**
  * @param {RouteProps} props
  */
-postSetRouteProps({ 
-  category: 'DocussTopic', 
-  discourseTitle: 'Discussions about the selected car' 
+postSetRouteProps({
+  category: 'DocussTopic',
+  discourseTitle: 'Discussions about the selected car'
 })
 ```
 
-You can see an example of `discourseTitle` [here](http://www.docuss.org/tags/intersection/dcs-discuss/dcs-lastev-stories) ("Stories").
+You can see an example of `discourseTitle`
+[here](http://www.docuss.org/tags/intersection/dcs-discuss/dcs-lastev-stories)
+("Stories").
 
 ## Set redirects
 
-A redirect is a rule that tells Docuss, when it is about to transition to a certain route (called the "source" route"), to transition to another route instead (called the "destination" route").
+A redirect is a rule that tells Docuss, when it is about to transition to a
+certain route (called the "source" route"), to transition to another route
+instead (called the "destination" route").
 
 ### Allow comments/discussions on full pages
 

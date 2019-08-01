@@ -1,5 +1,7 @@
 # dcs-decorator.js
 
+High-level dcs-client library for websites. Doesn't support web apps.
+
 ## Page Setup
 
 Add the following lines to the `<head>` section of your web pages:

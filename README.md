@@ -6,17 +6,16 @@ connect your website or web app to the
 
 Depending on your use case, you'll need **one** of these 3 libraries, :
 
-- `comToPlugin.js`: low-level library for web apps. It allows to establish a
-  direct communication with the Docuss plugin. See the documentation
-  [here](comToPlugin.md).
-- `dcs-html-based.js`: intermediate-level library for static websites. It
-  requires that you add specific HTML markup to each of page of the website. See
-  the documentation [here](dcs-html-based.md).
-- `dcs-decorator.js`: high-level library for static websites. The HTML markup is
-  dynamically added to your web pages based on rules contained in a description
-  file. See the documentation [here](dcs-decorator.md).
+- `comToPlugin.js`: low-level library for communication with the Docuss plugin.
+  Supports websites and web apps. See the documentation [here](comToPlugin.md).
+- `dcs-html-based.js`: intermediate-level library for websites. It requires that
+  you add specific HTML markup to each page of the website. See the
+  documentation [here](dcs-html-based.md).
+- `dcs-decorator.js`: high-level library for websites. The specific HTML markup
+  mentioned above is dynamically added to web pages based on rules contained in
+  a description file. See the documentation [here](dcs-decorator.md).
 
-**If you are new to Docuss**, the easiest option is to use the dcs-decorator
+If you are new to Docuss, the easiest option is to use the dcs-decorator
 library.
 
 ## License
