@@ -123,7 +123,9 @@ function addSubsections(trigger, counts) {
 
   // Go through the subsecs
   u.dom.forEach(beginNodes, bn => {
+    // Go up the tree as much as possible
     while (
+      !bn.previousElementSibling &&
       bn.parentNode &&
       bn.parentNode.querySelectorAll(s.begin).length === 1 &&
       (!s.end || bn.parentNode.querySelectorAll(s.end).length === 0)
@@ -165,9 +167,9 @@ function addTrigger(trigger, subsecNode, counts) {
     // Compute the triggerId
     let triggerId
     if (trigger.ids[0] === 'GENERATE_FROM_HTML_ID') {
-      triggerId = getHtmlId(node, subsecNode)
+      triggerId = generateTriggerId(node, subsecNode, true)
     } else if (trigger.ids[0] === 'GENERATE') {
-      triggerId = getHtmlId(null, null)
+      triggerId = generateTriggerId(node, null, false)
     } else {
       triggerId = trigger.ids[index % trigger.ids.length]
     }
@@ -257,11 +259,9 @@ function addTrigger(trigger, subsecNode, counts) {
   })
 }
 
-function getHtmlId(triggerNode, subsecNode) {
-  // Get the closest htmlId
-  // TEMPORARY TRICK: when triggerNode is null, we'll just generate an
-  // id not based on an html id
-  let beforeClean = triggerNode && findHtmlId(triggerNode, subsecNode)
+function generateTriggerId(triggerNode, subsecNode, fromHtmlId) {
+  // Get the closest htmlId  
+  let beforeClean = fromHtmlId ? findHtmlId(triggerNode, subsecNode) : null
 
   // If no html id is found, generate a default one
   if (!beforeClean) {
