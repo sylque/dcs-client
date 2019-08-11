@@ -37,9 +37,13 @@ function modifyDom({ descr, pageName, discourseOrigin, counts }) {
   dcsTagSettings = descr.dcsTag
 
   // Insert the additional CSS
-  const injectCss = (decorator.injectCss || []).reduce((res, a) => {
-    return includes(pageName, a.pageNames) ? res.concat(a.css) : res
-  }, [])
+  const injectCss = (decorator.injectCss || []).reduce(
+    (res, a) =>
+      includesPageName({ pageNames: a.pageNames, pageName })
+        ? res.concat(a.css)
+        : res,
+    []
+  )
   if (injectCss.length) {
     const css = document.createElement('style')
     css.type = 'text/css'
@@ -49,7 +53,9 @@ function modifyDom({ descr, pageName, discourseOrigin, counts }) {
 
   // Insert the global markup
   const allProps = decorator.pageProperties || []
-  const pageProps = allProps.filter(p => includes(pageName, p.pageNames)).pop()
+  const pageProps = allProps
+    .filter(p => includesPageName({ pageNames: p.pageNames, pageName }))
+    .pop()
   const category = (pageProps && pageProps.category) || decorator.category
   const discourseTitle =
     (pageProps && pageProps.discourseTitle) || decorator.discourseTitle
@@ -62,7 +68,9 @@ function modifyDom({ descr, pageName, discourseOrigin, counts }) {
 
   // Insert the triggers' markup
   const allTriggers = decorator.injectTriggers || []
-  const pageTriggers = allTriggers.filter(t => includes(pageName, t.pageNames))
+  const pageTriggers = allTriggers.filter(t =>
+    includesPageName({ pageNames: t.pageNames, pageName })
+  )
   const pageCounts = counts.filter(c => c.pageName === pageName)
   return u.dom.onDOMReady().then(() => {
     injectTriggers(pageTriggers, pageCounts)
@@ -260,7 +268,7 @@ function addTrigger(trigger, subsecNode, counts) {
 }
 
 function generateTriggerId(triggerNode, subsecNode, fromHtmlId) {
-  // Get the closest htmlId  
+  // Get the closest htmlId
   let beforeClean = fromHtmlId ? findHtmlId(triggerNode, subsecNode) : null
 
   // If no html id is found, generate a default one
@@ -337,8 +345,10 @@ function findHtmlId(triggerNode, subsecNode) {
 
 //------------------------------------------------------------------------------
 
-function includes(pageName, pageNames) {
-  return pageNames[0] === '*' || pageNames.includes(pageName)
+function includesPageName({ pageNames, pageName }) {
+  return pageNames.find(pn =>
+    pn.endsWith('*') ? pageName.startsWith(pn.slice(0, -1)) : pn === pageName
+  )
 }
 
 const TAG_REPLACE_REGEX = /[^0-9A-Za-z_]/g
