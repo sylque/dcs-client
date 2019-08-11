@@ -39,7 +39,7 @@
       "injectTriggers": [
         {
           "pageNames": ["openst"],
-          "ids": ["GENERATE_FROM_HTML_ID"],
+          "ids": ["@GENERATE_FROM_HTML_ID@"],
           "interactMode": "DISCUSS",
           "ui": {
             "cssSelector": ".docs-body h2, .docs-body h3",
@@ -54,7 +54,7 @@
         },
         {
           "pageNames": ["bylaws"],
-          "ids": ["GENERATE_FROM_HTML_ID"],
+          "ids": ["@GENERATE_FROM_HTML_ID@"],
           "interactMode": "DISCUSS",
           "ui": {
             "cssSelector": ".container h2",

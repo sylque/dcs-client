@@ -97,7 +97,7 @@ function injectTriggers(triggers, counts) {
 
   if (htmlIdsNotFound.length) {
     console.log(
-      'Docuss Decorator Warning - Those triggers with id="GENERATE_FROM_HTML_ID" were assigned generated ids because no html id was found:',
+      'Docuss Decorator Warning - Those triggers with id="@GENERATE_FROM_HTML_ID@" were assigned generated ids because no html id was found:',
       htmlIdsNotFound
     )
   }
@@ -166,9 +166,9 @@ function addTrigger(trigger, subsecNode, counts) {
   u.dom.forEach(triggerNodes, (node, index) => {
     // Compute the triggerId
     let triggerId
-    if (trigger.ids[0] === 'GENERATE_FROM_HTML_ID') {
+    if (trigger.ids[0] === '@GENERATE_FROM_HTML_ID@') {
       triggerId = generateTriggerId(node, subsecNode, true)
-    } else if (trigger.ids[0] === 'GENERATE') {
+    } else if (trigger.ids[0] === '@GENERATE@') {
       triggerId = generateTriggerId(node, null, false)
     } else {
       triggerId = trigger.ids[index % trigger.ids.length]

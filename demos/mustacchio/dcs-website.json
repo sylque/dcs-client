@@ -64,7 +64,7 @@
         },
         {
           "pageNames": ["whitep"],
-          "ids": ["GENERATE_FROM_HTML_ID"],
+          "ids": ["@GENERATE_FROM_HTML_ID@"],
           "interactMode": "DISCUSS",
           "ui": {
             "cssSelector": ".article.white-paper h2, .article.white-paper h3",
