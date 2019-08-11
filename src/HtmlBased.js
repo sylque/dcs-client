@@ -95,7 +95,8 @@ class HtmlBasedSingleton {
     // Case click nowhere special (all Docuss specific events ar handles
     // elsewhere with preventDefault)
     window.addEventListener('click', () => {
-      if (this.selTriggerNode && this.selTriggerNode.dataset.dcsHighlightable) {
+      // Don't deselect when user is selecting text
+      if (!window.getSelection().toString() && this.selTriggerNode && this.selTriggerNode.dataset.dcsHighlightable) {
         this._selectTriggers(null)
         comToPlugin.postSetDiscourseRoute({
           route: { layout: 0, pageName },
@@ -142,7 +143,7 @@ class HtmlBasedSingleton {
     })
   }
 
-  _onDiscourseRoutePushed({ route, descr, counts, clientContext, origin }) {
+  _onDiscourseRoutePushed({ route, descr, counts, clientContext, origin }) {    
     // Case init
     if (this.resolveConnect) {
       this.resolveConnect({
@@ -163,16 +164,15 @@ class HtmlBasedSingleton {
       return
     }
 
+    // clientContext === true means that this route changed has been
+    // triggered by us, so there is nothing more we need to do (because the
+    // trigger is already selected)
+    if (!clientContext) {
+      this._selectTriggers(route.triggerId)
+    }
+
     // Set the route category and title
     if (route.layout === 2 || route.layout === 3) {
-      // clientContext === true means that this route changed has been
-      // triggered by us, so there is nothing more we need to do (because the
-      // trigger is already selected)
-      if (!clientContext) {
-        this._selectTriggers(route.triggerId)
-      }
-
-      // Set the route props
       const category =
         (this.selTriggerNode && this.selTriggerNode.dataset.dcsCategory) ||
         document.documentElement.dataset.dcsCategory
