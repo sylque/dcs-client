@@ -4,9 +4,9 @@
   "websiteName": "open_stack",
 
   "logo": {
-    "logoUrl": "https://www.openstack.org/themes/openstack/images/openstack-logo-full.svg",
-    "mobileLogoUrl": "https://www.openstack.org/themes/openstack/images/openstack-logo-full.svg",
-    "smallLogoUrl": "https://www.openstack.org/themes/openstack/images/openstack-logo-full.svg"
+    "logoUrl": "logo.png",
+    "mobileLogoUrl": "logo.png",
+    "smallLogoUrl": "smallLogo.png"
   },
 
   "dcsTag": {
