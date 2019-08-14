@@ -26,16 +26,28 @@
   "redirects": [
     {
       "src": { "layout": 0, "pageName": "missio" },
-      "dest": { "layout": 2, "pageName": "@SAME_AS_SRC@", "interactMode": "COMMENT" }
+      "dest": {
+        "layout": 2,
+        "pageName": "@SAME_AS_SRC@",
+        "interactMode": "COMMENT"
+      }
     },
     {
       "src": { "layout": 0, "pageName": "aboutm" },
-      "dest": { "layout": 2, "pageName": "@SAME_AS_SRC@", "interactMode": "DISCUSS" }
+      "dest": {
+        "layout": 2,
+        "pageName": "@SAME_AS_SRC@",
+        "interactMode": "DISCUSS"
+      }
     }
   ],
 
   "clientData": {
     "decorator": {
+      "pageProperties": [
+        { "pageNames": ["missio"], "discourseTitle": "Comments" },
+        { "pageNames": ["aboutm"], "discourseTitle": "Discussions" }
+      ],
       "injectTriggers": [
         {
           "pageNames": ["lastev"],
