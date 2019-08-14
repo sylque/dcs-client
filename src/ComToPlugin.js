@@ -90,14 +90,7 @@ class ComToPlugin {
     this._bellhop.send('m4', arguments[0])
   }
 
-  /**
-   * @param {SetHashParams}
-   */
-  postSetHash({ hash, mode }) {
-    this._bellhop.send('m5', arguments[0])
-  }
-
-  /**
+    /**
    * @param {RouteProps} props
    */
   postSetRouteProps({ category, discourseTitle, error }) {

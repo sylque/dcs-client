@@ -36,7 +36,6 @@ class HtmlBasedSingleton {
     // We will resolve all links to absolute without proxy ("https://website.com/bar/index.html")
     // We start by retrieving the url of the current page url without the proxy
     const page = descr.pages.find(p => p.name === pageName)
-    const pageUrlWithoutProxy = page.url
 
     // Attempt to support more dynamic websites: manage links and trigger that
     // are added later through javascript
@@ -58,7 +57,7 @@ class HtmlBasedSingleton {
               'Docuss experimental feature: a link has been dynamically added',
               a
             )
-            _transformLink({ a, descr, discourseOrigin, pageUrlWithoutProxy })
+            _transformLink({ a, descr, discourseOrigin, page })
           }
 
           // Go through added click targets
@@ -96,7 +95,11 @@ class HtmlBasedSingleton {
     // elsewhere with preventDefault)
     window.addEventListener('click', () => {
       // Don't deselect when user is selecting text
-      if (!window.getSelection().toString() && this.selTriggerNode && this.selTriggerNode.dataset.dcsHighlightable) {
+      if (
+        !window.getSelection().toString() &&
+        this.selTriggerNode &&
+        this.selTriggerNode.dataset.dcsHighlightable
+      ) {
         this._selectTriggers(null)
         comToPlugin.postSetDiscourseRoute({
           route: { layout: 0, pageName },
@@ -124,7 +127,7 @@ class HtmlBasedSingleton {
       // Modify the document links so that they open the correct url in the
       // correct place
       u.dom.forEach(document.getElementsByTagName('a'), a => {
-        _transformLink({ a, descr, discourseOrigin, pageUrlWithoutProxy })
+        _transformLink({ a, descr, discourseOrigin, page })
       })
 
       // Add click events on triggers
@@ -143,7 +146,7 @@ class HtmlBasedSingleton {
     })
   }
 
-  _onDiscourseRoutePushed({ route, descr, counts, clientContext, origin }) {    
+  _onDiscourseRoutePushed({ route, descr, counts, clientContext, origin }) {
     // Case init
     if (this.resolveConnect) {
       this.resolveConnect({
@@ -294,7 +297,13 @@ function _scrollIntoViewIfNeeded(target) {
 
 //------------------------------------------------------------------------------
 
-function _transformLink({ a, descr, discourseOrigin, pageUrlWithoutProxy }) {
+// Something to remember here: a.href and a.getAttribute('href') are two very
+// different things:
+// - a.getAttribute('href') is the absolute or relative url the web designer
+// has written in his html code.
+// - a.href is the resulting absolute url computed by the browser from the
+// a.getAttribute('href') and the current page url.
+function _transformLink({ a, descr, discourseOrigin, page }) {
   // Case link is empty
   if (
     !a.href ||
@@ -305,80 +314,123 @@ function _transformLink({ a, descr, discourseOrigin, pageUrlWithoutProxy }) {
     return
   }
 
-  // Clean the link, so that it's easier to handle later:
-  // - Replace the DISCOURSE placeholder by the full link
-  // - Convert from relative to absolute without proxy
-  // - Remove inappropriate target
-  const href = a.getAttribute('href').trim()
-  if (href.startsWith('DISCOURSE/')) {
-    a.href = discourseOrigin + href.substring('DISCOURSE/'.length - 1)
-  } else {
-    a.href = new URL(href, pageUrlWithoutProxy)
-  }
+  // Remove unsupported targets
   if (a.target === '_parent' || a.target === '_top') {
     delete a.target
   }
 
-  // Case the link is a discourse link: cancel the behavior and set a
-  // custom click handler
-  if (a.origin === discourseOrigin) {
-    a.addEventListener('click', e => {
-      e.preventDefault()
-      e.stopPropagation()
-      comToPlugin.postSetDiscourseRoute({
-        route: { layout: 1, pathname: a.pathname },
-        mode: 'PUSH',
-        clientContext: true
-      })
-    })
-    return
+  // Transform the "//discourse" placeholder by the full link to the Discourse
+  // instance
+  if (a.hostname === 'discourse') {
+    a.href = new URL(a.pathname + a.search + a.hash, discourseOrigin)
   }
 
-  const targetUrlNoHash = a.href.split('#')[0]
+  /*
+  There are 3 cases here:
 
-  // Case it is an anchor (internal link)
-  if (a.hash && targetUrlNoHash === pageUrlWithoutProxy.split('#')[0]) {
-    // We need to notify the parent window AND keep the default anchor behavior
-    a.addEventListener('click', () => {
-      comToPlugin.postSetHash({ hash: a.hash, mode: 'REPLACE' })
-    })
-    return
-  }
+  Case #1: the link points to another page of our website, such as
+  http://my.website.com/otherpage.html. In that case we need to modify the 
+  link in the DOM to make it point to the Discourse instance, so that 
+  "right click + open in a new tab" will behave correctly. Also, in case of 
+  single click, we need to cancel the default behavior and ask the Docuss 
+  plugin to perform the page change within Discourse.
+  WE DON'T SUPPORT LINKS USING A DOCUSS PROXY, such as
+  http://docuss.proxy.com/http://my.website.com/otherpage.html
 
-  // Case it is an external link or a link to self
+  Case #2: the link is a Discourse link, such as http://my.discourse.com
+  or http://my.discourse.com/latest or http://my.discourse.com/docuss/foo.
+  There is no need to modify the link in the dom because it is already ok
+  for "right click + open in a new tab". However, in case of single click,
+  we need to cancel the default behavior and ask the Docuss plugin to
+  perform the page change within Discourse.
 
-  // See if there is a corresponding page in the website
-  const page = descr.pages.find(p => p.url.split('#')[0] === targetUrlNoHash)
+  Case #3: the link points to an arbitrary external page, such as
+  http://google.com. In that case, we just want the link to open in the parent 
+  window, not the iframe.
+  */
 
-  // Case the external link points to an arbitrary external target (no
-  // page found)
-  if (!page) {
-    if (!a.target || a.target === '_self') {
+  // Look if the link url is in the website page list (case #1)
+  const pageUrlWithoutProxy = page.url
+  const possibleRelativeLink = a.getAttribute('href').trim()
+  const targetUrlNoProxy = new URL(possibleRelativeLink, pageUrlWithoutProxy)
+  targetUrlNoProxy.hash = ''
+  const websitePage = descr.pages.find(
+    p => p.url.split('#')[0] === targetUrlNoProxy.href
+  )
+
+  // Case #3
+  if (!websitePage && a.origin !== discourseOrigin) {
+    if (a.target !== '_blank') {
       a.target = '_parent'
     }
     return
   }
 
-  // Case the external link points to another page of the website (or
-  // to self)
+  // Cases #1 and #2
+  let route
+  if (websitePage) {
+    // Case #1
+    a.href = discourseOrigin + '/docuss/' + websitePage.name + a.hash
+    route = { layout: 0, pageName: websitePage.name, hash: a.hash }
+  } else {
+    // Case #2 (a.origin === discourseOrigin)
+    if (a.pathname.startsWith('/docuss/')) {
+      const pageName = a.pathname.substring('/docuss/'.length)
+      route = { layout: 0, pageName, hash: a.hash }
+    } else if (a.pathname === '/' || a.pathname === '/docuss') {
+      // We don't have access to the first website descr, so we cannot 
+      // compute the target page name. So those 2 lines are very WRONG:
+      //    const pageName = descr.pages[0].name
+      //    route = { layout: 0, pageName, hash: a.hash }
+      // because it would route the user to the first page of the current descr,
+      // not the first page of all descr.
+      if (a.target !== '_blank') {
+        a.target = '_parent'
+      }
+      return
+    } else {
+      route = { layout: 1, pathname: a.pathname, hash: a.hash }
+    }
+  }
 
-  // Change the href so that cmd+click or right click+... will open
-  // the Discourse instance in another tab
-  a.href = discourseOrigin + '/docuss/' + page.name + a.hash
+  if (a.target === '_blank') {
+    return
+  }
 
-  // Regarding the simple click, cancel the default behavior and
-  // let Discourse load the target page
-  if (!a.target || a.target === '_self') {
-    a.addEventListener('click', e => {
-      e.preventDefault()
-      e.stopPropagation()
+  // Cases #1 and #2
+  a.addEventListener('click', e => {
+    if (e.ctrlKey) {
+      return
+    }
+
+    e.preventDefault()
+    e.stopPropagation()
+
+    // Special case when the link is a link to self. On a standard html page,
+    // a link to self is supposed to reload the page EXCEPT if there is an
+    // anchor, in which case the link acts as if it was a pure anchor link.
+    // One thing to take into account here is that the Docuss plugin doesn't
+    // support page reloading: if you call postSetDiscourseRoute() with the
+    // same route pageName, the page won't reload (but the hash will be set).
+    // So what are we gonna do?:
+    // - Not reloading the page is ok. I see no point in doing it. Although
+    // it could easily be done by setting a.target = '_parent'.
+    // - Scroll to the anchor must be taken care of.
+    if (route.pageName === page.name) {
+      location.hash = a.hash
       comToPlugin.postSetDiscourseRoute({
-        route: { layout: 0, pageName: page.name },
+        route: { layout: 0, pageName: page.name, hash: a.hash },
+        mode: 'REPLACE',
+        clientContext: true
+      })
+    } else {
+      comToPlugin.postSetDiscourseRoute({
+        route,
         mode: 'PUSH',
         clientContext: true
       })
-    })
-  }
+    }
+  })
 }
 
 //------------------------------------------------------------------------------
