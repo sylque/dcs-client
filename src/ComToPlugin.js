@@ -90,7 +90,7 @@ class ComToPlugin {
     this._bellhop.send('m4', arguments[0])
   }
 
-    /**
+  /**
    * @param {RouteProps} props
    */
   postSetRouteProps({ category, discourseTitle, error }) {
@@ -108,3 +108,64 @@ class ComToPlugin {
 }
 
 export const comToPlugin = new ComToPlugin()
+
+//==============================================================================
+// Better scrolling in iframe
+//==============================================================================
+
+/*
+In an iframe, when user scrolls past the top/bottom of the page with the mouse 
+wheel, the parent window scrolls instead. This isn't good in Discourse, where
+the iframe is full height on the right.
+So what we need to do os to intercept the wheel event and cancel it before it 
+is forwarded to the parent window.
+Notice that the "scroll" event fires *after* scrolling has been done, so it is 
+useless in our case
+*/
+
+const scrollLimitY =
+  Math.max(
+    document.body.scrollHeight,
+    document.body.offsetHeight,
+    document.documentElement.clientHeight,
+    document.documentElement.scrollHeight,
+    document.documentElement.offsetHeight
+  ) - window.innerHeight
+
+function handleScrollEvent(e, scrollDirection) {
+  if (scrollDirection === 'UP') {
+    if (window.scrollY === 0) {
+      e.preventDefault()
+    }
+  } else if (scrollDirection === 'DOWN') {
+    if (window.scrollY === scrollLimitY) {
+      e.preventDefault()
+    }
+  }
+}
+
+window.addEventListener(
+  'wheel',
+  e => {
+    if (e.deltaY < 0) {
+      handleScrollEvent(e, 'UP')
+    } else if (e.deltaY > 0) {
+      handleScrollEvent(e, 'DOWN')
+    }
+  },
+  { passive: false } // Passive is true by default on all scroll-related events under Chrome and Firefox
+)
+
+document.addEventListener('keydown', e => {
+  if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) {
+    return
+  }  
+  if (e.code === 'ArrowUp' || e.code === 'PageUp') {
+    handleScrollEvent(e, 'UP')    
+  }
+  if (e.code === 'ArrowDown' || e.code === 'PageDown') {
+    handleScrollEvent(e, 'DOWN')
+  }
+})
+
+//==============================================================================
