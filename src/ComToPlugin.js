@@ -123,22 +123,26 @@ Notice that the "scroll" event fires *after* scrolling has been done, so it is
 useless in our case
 */
 
-const scrollLimitY =
-  Math.max(
-    document.body.scrollHeight,
-    document.body.offsetHeight,
-    document.documentElement.clientHeight,
-    document.documentElement.scrollHeight,
-    document.documentElement.offsetHeight
-  ) - window.innerHeight
-
 function handleScrollEvent(e, scrollDirection) {
   if (scrollDirection === 'UP') {
     if (window.scrollY === 0) {
       e.preventDefault()
     }
   } else if (scrollDirection === 'DOWN') {
-    if (window.scrollY === scrollLimitY) {
+    // Compute the maximum scroll Y value
+    const scrollLimitY =
+      Math.max(
+        document.body.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.clientHeight,
+        document.documentElement.scrollHeight,
+        document.documentElement.offsetHeight
+      ) - window.innerHeight
+    
+    // However, for an unknown reason, in Firefox and Chrome, window.scrollY
+    // never reaches the maximum value but is stuck to 544.567969 when 
+    // scrollLimitY is 545
+    if (window.scrollY > scrollLimitY - 1) {
       e.preventDefault()
     }
   }
@@ -159,9 +163,9 @@ window.addEventListener(
 document.addEventListener('keydown', e => {
   if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) {
     return
-  }  
+  }
   if (e.code === 'ArrowUp' || e.code === 'PageUp') {
-    handleScrollEvent(e, 'UP')    
+    handleScrollEvent(e, 'UP')
   }
   if (e.code === 'ArrowDown' || e.code === 'PageDown') {
     handleScrollEvent(e, 'DOWN')
