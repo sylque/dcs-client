@@ -104,6 +104,13 @@ class ComToPlugin {
     this._bellhop.send('m7', redirects)
   }
 
+  /**
+   * @param {CreateTagsParams}
+   */
+  postCreateDcsTags({ pageName, triggerIds, notificationLevel }) {
+    this._bellhop.send('m8', arguments[0])
+  }
+
   //----------------------------------------------------------------------------
 }
 
@@ -138,9 +145,9 @@ function handleScrollEvent(e, scrollDirection) {
         document.documentElement.scrollHeight,
         document.documentElement.offsetHeight
       ) - window.innerHeight
-    
+
     // However, for an unknown reason, in Firefox and Chrome, window.scrollY
-    // never reaches the maximum value but is stuck to 544.567969 when 
+    // never reaches the maximum value but is stuck to 544.567969 when
     // scrollLimitY is 545
     if (window.scrollY > scrollLimitY - 1) {
       e.preventDefault()

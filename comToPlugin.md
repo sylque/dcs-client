@@ -163,6 +163,43 @@ The above disables layout 2 on the page called _home_ for trigger _info_.
 
 You can omit `pageName` and/or `triggerId` to target more than one page.
 
+## Create Docuss tags in advance
+
+By default, Docuss doesn't create the tags corresponding to triggers right away.
+Instead, it creates a trigger's tag whenever a user creates the first topic of
+the trigger.
+
+This "late creation" mechanism is a nice feature, because it allows to reduce
+the number of tags in the Discourse database: only triggers where people are
+actually discussing something have a tag.
+
+But this feature can be painful in some cases. If you create a page with 3
+discussion triggers and you want to be notified when people discuss those
+triggers, you can't. Indeed, the 3 tags don't exist yet, so there is no way you
+can register for notifications.
+
+The following function call allows to create 3 triggers' tags and to register
+them for `Watching` notifications (example taken from
+[this page](http://www.docuss.org/tags/intersection/dcs-discuss/dcs-lastev-stories)):
+
+```javascript
+/**
+ * @typedef  {Object} CreateTagsParams
+ * @property {String} pageName
+ * @property {[String]} [triggerIds]
+ * @property {(1|2|3|4)} [notificationLevel=1] - 1=Regular, 2=Tracking,
+ * 3=Watching, 4=Watching First Post
+ */
+/**
+ * @param {CreateTagsParams}
+ */
+comToPlugin.postCreateDcsTags({
+  pageName: 'lastev',
+  triggerIds: ['photos', 'videos', 'stories'],
+  notificationLevel: 3
+})
+```
+
 ## Browser usage
 
 [under construction]
