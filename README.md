@@ -2,7 +2,7 @@
 
 [Docuss](https://github.com/sylque/docuss) client-side libraries are used to
 connect your website or web app to the
-[Docuss plugin](https://github.com/sylque/dcs-discourse-plugin2).
+[Docuss plugin](https://github.com/sylque/dcs-discourse-plugin).
 
 Depending on your use case, you'll need **one** of these 3 libraries, :
 
