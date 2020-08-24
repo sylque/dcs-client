@@ -200,6 +200,38 @@ comToPlugin.postCreateDcsTags({
 })
 ```
 
+Another way to create a tag is to create a topic containing the tag, using this
+function:
+
+```javascript
+/**
+ * @typedef  {Object} CreateTopicParams
+ * @property {String} title - Topic title. Beware of Discourse title settings 
+ * (length, entropy, similarity, etc.)
+ * @property {String} body - Topic body. Beware of Discourse body settings 
+ * (length, etc.)
+ * @property {String} [category] - Name of the topic category
+ * @property {String} pageName - Name of the Docuss page for which the topic 
+ * needs to be created
+ * @property {String} triggerId - Id of the trigger for which the topic needs 
+ * to be created
+ * @property {(1|2|3|4)} [tagNotificationLevel=1] - Notification level of the
+ * tag "dcs-pageName-triggerId"
+ * 1=Regular, 2=Tracking, 3=Watching, 4=Watching First Post. See:
+ * https://github.com/discourse/discourse/blob/acd1693dac1bff6ff50250d942134bc48a27ff14/app/assets/javascripts/discourse/lib/notification-levels.js.es6#L1
+ */
+/**
+ * @param {CreateTopicParams}
+ */
+comToPlugin.postCreateTopic({
+  title: 'This is a new topic',
+  body: 'Here I suggest we discuss what we need to do now',
+  pageName: 'lastev',
+  triggerId: 'photos',
+  tagNotificationLevel: 3
+})
+```
+
 ## Browser usage
 
 [under construction]
