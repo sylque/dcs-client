@@ -4,6 +4,8 @@
 connect your website or web app to the
 [Docuss plugin](https://github.com/sylque/dcs-discourse-plugin).
 
+**This project is not active anymore.** Fixes are provided to existing users, but I stopped working on new features. You might want to check  [DiscPage](https://github.com/sylque/discpage), which is somehow a simplified version of Docuss.
+
 Depending on your use case, you'll need **one** of these 3 libraries, :
 
 - `comToPlugin.js`: low-level library for communication with the Docuss plugin.
